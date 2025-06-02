@@ -1,0 +1,145 @@
+openapi: 3.0.4
+info:
+  title: Light Service API
+  description: Сервис по управлению светом
+  version: '1.0'
+tags:
+  - name: light
+    description: Операции по управлению светом
+paths:
+  /light/current:
+    post:
+      tags:
+        - light
+      summary: Получение состояния датчика света
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Получение состояния датчика света
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: включен
+        '400':
+          description: Ошибка получения состояния датчика света
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось получить значение текущего состояния датчика света. Попробуйте повторить попытку позже
+                    
+  /light/on:
+    post:
+      tags:
+        - light
+      summary: Включение датчика света
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Датчик светап включен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: string
+                    example: Датчик светап включен
+        '400':
+          description: Ошибка включения датчика света
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось включенить датчик света. Попробуйте повторить попытку позже
+  
+  /light/off:
+    post:
+      tags:
+        - light
+      summary: Выключение датчика света
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Датчик света выключен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: string
+                    example: Датчик света выключен
+        '400':
+          description: Ошибка выключения датчика света
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось отключить датчик света. Попробуйте повторить попытку позже
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

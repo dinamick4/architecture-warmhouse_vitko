@@ -1,0 +1,149 @@
+openapi: 3.0.4
+info:
+  title: Temperature Service API
+  description: Сервис по управлению темепературой в доме
+  version: '1.0'
+tags:
+  - name: temperature
+    description: Операции по управлению темепературой в доме
+paths:
+  /temperature/current:
+    post:
+      tags:
+        - temperature
+      summary: Получение текущей темепературы в доме
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Получение текущей темепературы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: string
+                    example: 25°C
+        '400':
+          description: Ошибка получения темепературы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось получить значение текущей температуры. Попробуйте повторить попытку позже
+                    
+  /temperature/set:
+    post:
+      tags:
+        - temperature
+      summary: Установка заданной темепературы в доме
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+                temperature:
+                  type: integer
+                  example: 22
+              required:
+                - module_id
+                - device_id
+                - temperature
+      responses:
+        '200':
+          description: Установка заданной темепературы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: string
+                    example: Установлена темепература 25°C
+        '400':
+          description: Ошибка установки заданной темепературы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось установить заданное значение температуры. Попробуйте повторить попытку позже
+  
+  /temperature/off:
+    post:
+      tags:
+        - temperature
+      summary: Выключение датчика температуры
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Датчик темепературы выключен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: string
+                    example: Датчик темепературы выключен
+        '400':
+          description: Ошибка выключения датчика темепературы
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось выключить датчик температуры. Попробуйте повторить попытку позже
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

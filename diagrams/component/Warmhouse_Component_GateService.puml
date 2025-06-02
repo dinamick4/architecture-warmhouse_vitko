@@ -1,0 +1,20 @@
+@startuml
+title Warm house Gate Service Component Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(WarmHouseSystem, "Warm house gate System") {
+  Container(WebApp, "Gate Service", "Go", "Handles gate sensor request")
+  Container(Database, "Database", "PostgreSQL")
+}
+
+Container(WebApp, "Web Application", "Go") {
+  Component(GateController, "GateController", "Gate handler")
+  Component(ServiceLayer, "Service Layer", "Business logic")
+}
+
+Rel(GateController,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,Database, "Reads/Writes gate sensor data")
+@enduml

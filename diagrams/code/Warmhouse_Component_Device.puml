@@ -1,0 +1,58 @@
+@startuml
+title Warm house Device Code Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+class User {
+  +int id
+  +String name
+  +String secondName
+  +String surname
+  +String login
+  +String password
+  +String email
+  +String phone
+  +boolean isActive
+  +void register()
+  +void login()
+  +void logout()
+  +void changePassword()
+  +void resetPassword()
+}
+
+class "House" {
+  +int id
+  +String address
+  +int houseArea
+  +int numberOfRooms
+
+}
+
+class Module {
+  +int id
+  +String name
+  +String type
+  +String serialNumber
+  +String ipAddress
+  +Date installationDate
+  +List<Device> devices
+  +void add()
+  +void check()
+  +void delete()
+}
+
+class Device {
+  +int id
+  +String name
+  +String type
+  +String serialNumber
+  +Date installationDate
+}
+
+User "1" -- "0..*" House : has
+House "1" -- "1..*" Module : has
+Module "1" -- "0..*" Device : has
+
+@enduml

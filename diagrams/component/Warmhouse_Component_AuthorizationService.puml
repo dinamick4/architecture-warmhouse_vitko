@@ -1,0 +1,20 @@
+@startuml
+title Warm house Authorization Service Component Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(WarmHouseSystem, "Warm house System") {
+  Container(WebApp, "Authorization Service", "Go", "Handles authorization")
+  Container(Database, "Database", "PostgreSQL")
+}
+
+Container(WebApp, "Web Application", "Go") {
+  Component(AuthorizationController, "AuthorizationController", "Authorization handler")
+  Component(ServiceLayer, "Service Layer", "Business logic")
+}
+
+Rel(AuthorizationController,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,Database, "Reads/Writes authorization data")
+@enduml
