@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+hide empty members
+
+entity "User" as User {
+  *ID
+   Name
+   SecondName
+   Surname
+   Login
+   Password
+   Email
+   Phone
+   IsActive
+}
+
+entity "House" as House {
+  *ID
+  *User_ID
+   Address
+   HouseArea
+   NumberOfRooms
+}
+
+entity "Module" as Module {
+  *ID
+   Name
+  *House_id
+   SerialNumber
+   IpAddress
+   InstallationDate
+   Status
+}
+
+entity "Device" as Device {
+  *ID
+   Name
+  *Module_id
+   Type_id
+   SerialNumber
+   InstallationDate
+   Status
+}
+
+entity "DeviceType" as DeviceType {
+  *ID
+   Name
+}
+
+User ||--|{ House : имеет
+House "1" -- "1" Module : имеет
+Module ||--|{ Device : имеет
+Device "1" -- "1" DeviceType : имеет
+
+
+@enduml

@@ -1,0 +1,145 @@
+openapi: 3.0.4
+info:
+  title: Gate Service API
+  description: Сервис по управлению электроворотами
+  version: '1.0'
+tags:
+  - name: gate
+    description: Операции по управлению электроворотами
+paths:
+  /gate/current:
+    post:
+      tags:
+        - gate
+      summary: Получение текущего состояния электороворот
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Получение текущего состояния электороворот
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: открыто
+        '400':
+          description: Ошибка получения текущего состояния электороворот
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось получить значение текущего состояния электороворот. Попробуйте повторить попытку позже
+                    
+  /gate/open:
+    post:
+      tags:
+        - gate
+      summary: Открыть электроворота 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Электроворота открыты
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Электроворота открыты
+        '400':
+          description: Ошибка открытия электроворот
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось открыть электроворота. Попробуйте повторить попытку позже
+  
+  /gate/close:
+    post:
+      tags:
+        - gate
+      summary: Закрытие электроворота 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                module_id:
+                  type: integer
+                  example: 12
+                device_id:
+                  type: integer
+                  example: 2
+              required:
+                - module_id
+                - device_id
+      responses:
+        '200':
+          description: Электроворота закрыты
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Электроворота закрыты
+        '400':
+          description: Ошибка закрытия электроворот
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось закрыть электроворота. Попробуйте повторить попытку позже
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

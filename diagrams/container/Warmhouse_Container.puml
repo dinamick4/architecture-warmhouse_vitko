@@ -1,0 +1,51 @@
+@startuml
+title Container diagram «Warm House»
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "User of the «Warm House» system")
+Person(admin, "Administrator", "Administrator of the «Warm House» system")
+System(WarmHouseSystem, "«Warm House» System", "System for controlling heating, light, automatic gates and remote monitoring")
+
+Container_Boundary(WarmHouseSystem, "Warm house System") {
+  Container(WebApp, "Web Application", "Go, Spring", "Handles user interactions")
+  Container(TemperatureService, "Temperature Service", "Go")
+  Container(PaymentService, "Payment Service", "Go")
+  Container(LightService, "Light Service", "Go")
+  Container(GateService, "Gate Service", "Go")
+  Container(VideoSurveillanceService, "Video surveillance Service", "Go")
+  Container(AuthorizationService, "Authorization Service", "Go")
+  Container(UserProfileService, "User profile Service", "Go")
+  Container(Payment_Database, "Payment Database", "PostgreSQL", "Stores payment data")
+  Container(Telemetry_Database, "Telemetry Database", "PostgreSQL", "Stores telemetry data")
+  Container(User_Database, "User Database", "PostgreSQL", "Stores authorization data")
+
+
+}
+
+System_Ext(bank, "Bank System", "External bank for processing payments")
+System_Ext(api_module, "External module API")
+Rel(user, WebApp, "System user")
+Rel(admin, WebApp,"System Administrator")
+Rel(WebApp,PaymentService,"Processes payment requests")
+Rel(WebApp,TemperatureService,"Processes requests temperature control sensors")
+Rel(WebApp,LightService,"Processes requests light control sensors")
+Rel(WebApp,GateService,"Processes requests gate control sensors")
+Rel(WebApp,VideoSurveillanceService,"Processes video surveillance requests")
+Rel(WebApp,AuthorizationService,"Processes authorization and identification requests")
+Rel(WebApp,UserProfileService,"Processes client profile requests")
+Rel(PaymentService, Payment_Database,"Reads/Writes payment data")
+Rel(PaymentService,bank,"Processes payments")
+Rel(TemperatureService, Telemetry_Database,"Reads/Writes telemetry data")
+Rel(LightService, Telemetry_Database,"Reads/Writes telemetry data")
+Rel(GateService, Telemetry_Database,"Reads/Writes telemetry data")
+Rel(VideoSurveillanceService,  Telemetry_Database,"Reads/Writes telemetry data")
+Rel(AuthorizationService, User_Database,"Reads/Writes authorization data")
+Rel(UserProfileService, User_Database,"Reads/Writes user profile data")
+Rel(TemperatureService,api_module,"temperatur sensor management")
+Rel(LightService,api_module,"light sensor management")
+Rel(GateService,api_module,"gate sensor management")
+Rel(VideoSurveillanceService,api_module,"Video surveillance management")
+@enduml

@@ -1,0 +1,59 @@
+openapi: 3.0.4
+info:
+  title: Payment Service API
+  description: Сервис платежей
+  version: '1.0'
+tags:
+  - name: payment
+    description: Операции по платежам
+paths:
+  /payment:
+    post:
+      tags:
+        - payment
+      summary: Создание нового платежа
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ivanov@email.com
+                amount:
+                  type: integer
+                  example: 500
+              required:
+                - email
+                - amount
+      responses:
+        '200':
+          description: Оплата прошла успешно
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Оплата прошла успешно !
+        '400':
+          description: Не удалось провести платеж
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось провести платеж. Попробуйте повториить попытку позже.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

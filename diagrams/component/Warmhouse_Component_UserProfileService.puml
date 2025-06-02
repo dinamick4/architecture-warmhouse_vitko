@@ -1,0 +1,20 @@
+@startuml
+title Warm house User Profile Service Component Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(WarmHouseSystem, "Warm house user profile system") {
+  Container(WebApp, "User profile Service", "Go", "Handles user profile request")
+  Container(Database, "Database", "PostgreSQL")
+}
+
+Container(WebApp, "Web Application", "Go") {
+  Component(UserProfileController, "UserProfileController", "User profile handler")
+  Component(ServiceLayer, "Service Layer", "Business logic")
+}
+
+Rel(UserProfileController,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,Database, "Reads/Writes user profile data")
+@enduml

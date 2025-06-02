@@ -1,0 +1,243 @@
+openapi: 3.0.4
+info:
+  title: Authorization Service API
+  description: Авторизация и регистрация пользователей
+  version: '1.0'
+tags:
+  - name: auth
+    description: Аутентификационные операции
+paths:
+  /register:
+    post:
+      tags:
+        - auth
+      summary: Регистрация нового пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Иван
+                secondName:
+                  type: string
+                  example: Иванович
+                surname:
+                  type: string
+                  example: Иванов
+                email:
+                  type: string
+                  example: ivanov@email.com
+                phone:
+                  type: string
+                  example: 89109999999
+                password:
+                  type: string
+                  minLength: 8
+                  example: password123
+              required:
+                - username
+                - email
+                - password
+                - phone
+      responses:
+        '200':
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully!
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Username or email/phone already exists
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Вход в систему
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ivanov@email.com
+                password:
+                  type: string
+                  example: password123
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Успешная авторизация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  refreshToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        '400':
+          description: Неверные учетные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Неправильный адрес электронной почты или пароль
+  /logout:
+    post:
+      tags:
+        - auth
+      summary: Выход из системы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+              required:
+                - refreshToken
+      responses:
+        '200':
+          description: Выход из системы успешно произведен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: see you soon
+        '400':
+          description: Сервер не доступен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: server unavailable
+  /user/changePassword/:
+    post:
+      tags:
+        - auth
+      summary: Изменение пароля пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ivanov@email.com
+                oldPassword:
+                  type: string
+                  minLength: 8
+                  example: oldpassword123
+                newPassword:
+                  type: string
+                  minLength: 8
+                  example: newpassword123
+              required:
+                - email
+                - oldPassword
+                - newPassword
+      responses:
+        '200':
+          description: Пароль успешно обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Пароль успешно обновлен
+        '400':
+          description: Не удалось обновить пароль
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось обновить пароль. Попробуйте повториить попытку позже.
+  /user/resetPassword/:
+    post:
+      tags:
+        - auth
+      summary: Сброс текущего пароля пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: 89109999999
+              required:
+                - phone
+      responses:
+        '200':
+          description: Пароль успешно сброшен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Пароль успешно обновлен. Новый пароль отправлен на телефон 89109999999
+        '400':
+          description: Не удалось обновить пароль
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не удалось обновить пароль. Попробуйте повториить попытку позже.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []

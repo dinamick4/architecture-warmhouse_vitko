@@ -1,0 +1,44 @@
+@startuml
+title Warm house Web Application Component Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(WarmHouseSystem, "Warm house System") {
+  Container(WebApp, "Web Application", "Go", "Handles user interactions")
+  Container(TemperatureService, "TemperatureService", "Go")
+  Container(PaymentService, "PaymentService", "Go")
+  Container(LightService, "LightService", "Go")
+  Container(GateService, "GateService", "Go")
+  Container(VideoSurveillanceService, "Video surveillance Service", "Go")
+  Container(AuthorizationService, "Authorization Service", "Go")
+  Container(UserProfileService, "User profile Service", "Go")
+}
+
+Container(WebApp, "Web Application", "Go") {
+  Component(AuthorizationController, "AuthorizationController", "Authorization handler")
+  Component(TemperatureController, "TemperatureController", "Temperature sensor request handler")
+  Component(PaymentController, "PaymentController", "Payment request handler")
+  Component(LightController, "LightController", "Light sensor request handler")
+  Component(GateController, "GateController", "Gate sensor request handler")
+  Component(VideoSurveillanceController, "VideoSurveillanceController", "Video surveillance request handler")
+  Component(UserProfileController, "UserProfileController", "User profile request handler")
+  Component(ServiceLayer, "Service Layer", "Business logic")
+}
+
+Rel(AuthorizationController,ServiceLayer,"Calls business logic")
+Rel(TemperatureController,ServiceLayer,"Calls business logic")
+Rel(PaymentController,ServiceLayer,"Calls business logic")
+Rel(LightController,ServiceLayer,"Calls business logic")
+Rel(GateController,ServiceLayer,"Calls business logic")
+Rel(VideoSurveillanceController,ServiceLayer,"Calls business logic")
+Rel(UserProfileController,ServiceLayer,"Calls business logic")
+Rel(ServiceLayer,AuthorizationService,"Request to AuthorizationService")
+Rel(ServiceLayer,TemperatureService,"Request to TemperatureService")
+Rel(ServiceLayer,PaymentService,"Request to PaymentService")
+Rel(ServiceLayer,LightService,"Request to LightService")
+Rel(ServiceLayer,GateService,"Request to GateService")
+Rel(ServiceLayer,VideoSurveillanceService,"Request to VideoSurveillanceService")
+Rel(ServiceLayer,UserProfileService,"Request to UserProfileService")
+@enduml

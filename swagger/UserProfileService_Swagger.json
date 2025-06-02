@@ -1,0 +1,134 @@
+openapi: 3.0.4
+info:
+  title: User Profile Service API
+  description: Профиль клиета
+  version: '1.0'
+tags:
+  - name: user_profile
+    description: Операции с профилем клиента
+paths:
+  /user/{user_id}/profile:
+    get:
+      tags:
+        - user_profile
+      summary: Получение профиля клиента
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Уникальный идентификатор клиента 
+      responses:
+        '200':
+          description: Получение профиля клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  secondName:
+                    type: string
+                  surname:
+                    type: string
+                  login:
+                    type: string
+                  email:
+                    type: string
+        '400':
+          description: Ошибка получение профиля клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Профиль пока не доступен. Попробуйте повторить попытку позже
+    post:
+      tags:
+        - user_profile
+      summary: Обновление профиля клиента
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Уникальный идентификатор клиента 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                field_name:
+                  type: string
+                  example: новое значение    
+      responses:
+        '200':
+          description: Обновление профиля клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: профиль успешно обновлен
+
+        '400':
+          description: Не получилось обновить профиль клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не получилось обновить профиль клиента. Попробуйте повторить попытку позже
+    delete:
+      tags:
+        - user_profile
+      summary: Удаление профиля клиента
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Уникальный идентификатор клиента 
+      responses:
+        '200':
+          description: удаление профиля клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: профиль успешно удален
+
+        '400':
+          description: Не получилось удалить профиль клиента
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Не получилось удалить профиль клиента. Попробуйте повторить попытку позже
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []
