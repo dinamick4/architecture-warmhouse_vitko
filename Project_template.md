@@ -43,17 +43,7 @@
 
 Добавьте сюда диаграмму контекста в модели C4.
 
-Чтобы добавить ссылку в файл Readme.md, нужно использовать синтаксис Markdown. Это делают так:
-
-```markdown
-[Текст ссылки](URL)
-```
-
-Замените `Текст ссылки` текстом, который хотите использовать для ссылки. Вместо `URL` вставьте адрес, на который должна вести ссылка. Например:
-
-```markdown
-[Посетите Яндекс](https://ya.ru/)
-```
+[Диаграмма контекста](https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/diagrams/context/Warmhouse_Context.puml)
 
 # Задание 2. Проектирование микросервисной архитектуры
 
@@ -79,11 +69,17 @@
 
 ### 1. Тип API
 
-Укажите, какой тип API вы будете использовать для взаимодействия микросервисов. Объясните своё решение.
+Для взаимодействия микросервисов планирую использовать REST
 
 ### 2. Документация API
 
-Здесь приложите ссылки на документацию API для микросервисов, которые вы спроектировали в первой части проектной работы. Для документирования используйте Swagger/OpenAPI или AsyncAPI.
+Микросервис авторизации - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/AuthorizationService_Swagger.json
+Микросервис управления воротами - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/GateService_Swagger.json
+Микросервис управления светом - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/LightService_Swagger.json
+Микросервис платежей - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/PaymentService_Swagger.json
+Микросервис управления температурой - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/TemperatureService_Swagger.json
+Микросервис профиля клиента - https://github.com/dinamick4/architecture-warmhouse_vitko/blob/warmhouse/swagger/UserProfileService_Swagger.json
+
 
 # Задание 5. Работа с docker и docker-compose
 
